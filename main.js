@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, protocol, BrowserWindow } = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -13,12 +13,23 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('site/app/index.html')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
-
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'app',
+    privileges: {
+      bypassCSP: true,
+      secure: true,
+      standard: true,
+      allowServiceWorkers: true,
+      supportFetchAPI: true
+    }
+  },
+]);
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
